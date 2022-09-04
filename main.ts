@@ -3,6 +3,7 @@ input.onButtonPressed(Button.A, function () {
 })
 input.onButtonPressed(Button.AB, function () {
     laser = game.createSprite(player.get(LedSpriteProperty.X), 4)
+    music.playTone(1500, 100)
     for (let index = 0; index < 4; index++) {
         laser.change(LedSpriteProperty.Y, -1)
         basic.pause(100)
@@ -10,7 +11,8 @@ input.onButtonPressed(Button.AB, function () {
             alien.delete()
             laser.delete()
             game.addScore(1)
-            isalienalive = isalienalive - 1
+            isalienalive = 0
+            music.playTone(500, 200)
         }
     }
     laser.delete()
@@ -28,6 +30,7 @@ let level = delay
 player = game.createSprite(2, 4)
 alien = game.createSprite(0, 0)
 basic.forever(function () {
+    music.ringTone(100000 / delay)
     alien.ifOnEdgeBounce()
     alien.move(1)
     basic.pause(delay)
@@ -37,11 +40,13 @@ basic.forever(function () {
     }
     if (alien.get(LedSpriteProperty.Y) > 3) {
         game.gameOver()
+        music.stopAllSounds()
     }
     if (isalienalive == 0) {
+        level = delay
         basic.pause(600)
         alien = game.createSprite(0, 0)
-        delay = level - 50
+        delay = level - 20
         isalienalive = 1
     }
 })
